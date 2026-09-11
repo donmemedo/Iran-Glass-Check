@@ -1,0 +1,438 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Laminated glass — the whole system is two translucent planes with light
+   caught at the edge. Light theme first; dark redefines the same tokens.
+--------------------------------------------------------------------------- */
+:root {
+  --bg: oklch(0.976 0.006 245);
+  --bg-deep: oklch(0.945 0.012 245);
+  --panel: oklch(1 0 0);
+  --fg: oklch(0.23 0.028 258);
+  --fg-muted: oklch(0.52 0.022 258);
+  --fg-subtle: oklch(0.63 0.018 258);
+  --line: oklch(0.9 0.012 250);
+  --line-strong: oklch(0.84 0.016 250);
+
+  --accent: oklch(0.58 0.148 222);
+  --accent-soft: oklch(0.93 0.045 220);
+  --accent-2: oklch(0.53 0.196 288);
+  --accent-2-soft: oklch(0.94 0.04 288);
+
+  --ok: oklch(0.56 0.135 158);
+  --warn: oklch(0.64 0.152 62);
+  --crit: oklch(0.55 0.208 22);
+  --ok-soft: oklch(0.94 0.05 158);
+  --warn-soft: oklch(0.95 0.06 75);
+  --crit-soft: oklch(0.95 0.045 22);
+
+  --glass: color-mix(in oklab, var(--panel) 72%, transparent);
+  --glass-strong: color-mix(in oklab, var(--panel) 88%, transparent);
+  --glass-line: color-mix(in oklab, var(--fg) 10%, transparent);
+  --glass-sheen: color-mix(in oklab, white 85%, transparent);
+
+  --shadow-sm: 0 1px 2px oklch(0.4 0.04 255 / 0.06), 0 2px 8px oklch(0.4 0.04 255 / 0.05);
+  --shadow-md: 0 2px 6px oklch(0.4 0.04 255 / 0.07), 0 12px 28px oklch(0.4 0.04 255 / 0.08);
+  --shadow-lg: 0 4px 12px oklch(0.4 0.04 255 / 0.08), 0 28px 64px oklch(0.4 0.04 255 / 0.12);
+  --glow: 0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent),
+    0 8px 32px color-mix(in oklab, var(--accent) 22%, transparent);
+
+  --aurora-1: color-mix(in oklab, var(--accent) 26%, transparent);
+  --aurora-2: color-mix(in oklab, var(--accent-2) 20%, transparent);
+  --aurora-3: color-mix(in oklab, oklch(0.7 0.14 178) 18%, transparent);
+  --aurora-opacity: 0.55;
+  --grain-opacity: 0.032;
+
+  /* the hero pane reads as a real sheet of glass in both themes */
+  --pane-from: oklch(0.995 0.006 225);
+  --pane-to: oklch(0.9 0.028 235);
+  --pane-line: color-mix(in oklab, var(--fg) 16%, transparent);
+  --crack: color-mix(in oklab, var(--fg) 62%, transparent);
+
+  --nav-h: 4.25rem;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: oklch(0.155 0.022 258);
+  --bg-deep: oklch(0.115 0.02 258);
+  --panel: oklch(0.208 0.026 258);
+  --fg: oklch(0.972 0.008 250);
+  --fg-muted: oklch(0.735 0.02 252);
+  --fg-subtle: oklch(0.6 0.022 254);
+  --line: oklch(0.32 0.026 258);
+  --line-strong: oklch(0.42 0.03 258);
+
+  --accent: oklch(0.83 0.135 198);
+  --accent-soft: oklch(0.32 0.07 210);
+  --accent-2: oklch(0.72 0.168 288);
+  --accent-2-soft: oklch(0.31 0.08 288);
+
+  --ok: oklch(0.81 0.155 160);
+  --warn: oklch(0.83 0.145 76);
+  --crit: oklch(0.71 0.185 22);
+  --ok-soft: oklch(0.3 0.07 160);
+  --warn-soft: oklch(0.33 0.07 76);
+  --crit-soft: oklch(0.32 0.09 22);
+
+  --glass: color-mix(in oklab, var(--panel) 62%, transparent);
+  --glass-strong: color-mix(in oklab, var(--panel) 82%, transparent);
+  --glass-line: color-mix(in oklab, white 12%, transparent);
+  --glass-sheen: color-mix(in oklab, white 22%, transparent);
+
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.4), 0 2px 8px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 2px 6px oklch(0 0 0 / 0.45), 0 12px 32px oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 4px 14px oklch(0 0 0 / 0.5), 0 32px 72px oklch(0 0 0 / 0.55);
+  --glow: 0 0 0 1px color-mix(in oklab, var(--accent) 30%, transparent),
+    0 10px 44px color-mix(in oklab, var(--accent) 28%, transparent);
+
+  --aurora-1: color-mix(in oklab, var(--accent) 32%, transparent);
+  --aurora-2: color-mix(in oklab, var(--accent-2) 34%, transparent);
+  --aurora-3: color-mix(in oklab, oklch(0.6 0.16 172) 26%, transparent);
+  --aurora-opacity: 0.95;
+  --grain-opacity: 0.05;
+
+  --pane-from: color-mix(in oklab, var(--panel) 92%, transparent);
+  --pane-to: color-mix(in oklab, var(--bg-deep) 82%, transparent);
+  --pane-line: color-mix(in oklab, white 14%, transparent);
+  --crack: color-mix(in oklab, var(--fg) 60%, transparent);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-panel: var(--panel);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent2: var(--accent-2);
+  --color-accent2-soft: var(--accent-2-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-crit: var(--crit);
+  --color-crit-soft: var(--crit-soft);
+
+  --font-sans: var(--font-app), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 2.75rem;
+
+  --shadow-soft: var(--shadow-sm);
+  --shadow-raised: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+
+  --ease-glass: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-app), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv01";
+  overflow-x: clip;
+  transition: background-color 0.45s var(--ease-glass), color 0.45s var(--ease-glass);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 32%, transparent);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 0.35rem;
+}
+
+/* Persian numerals and headings want tighter leading than Latin body copy. */
+[lang="fa"] {
+  --font-app: var(--font-vazir);
+}
+[lang="en"] {
+  --font-app: var(--font-geist-sans);
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.022em;
+  line-height: 1.14;
+  text-wrap: balance;
+}
+[lang="fa"] h1,
+[lang="fa"] h2,
+[lang="fa"] h3 {
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+p {
+  text-wrap: pretty;
+}
+[lang="fa"] p {
+  line-height: 1.95;
+}
+
+/* ------------------------------- materials ------------------------------- */
+
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow-md), inset 0 1px 0 var(--glass-sheen);
+}
+
+@utility glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 var(--glass-sheen);
+}
+
+@utility panel-card {
+  background: color-mix(in oklab, var(--panel) 94%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+/* A hairline of caught light along the top edge — the signature of the system */
+@utility edge-light {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 12%;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--accent) 70%, transparent),
+      transparent
+    );
+    opacity: 0.8;
+  }
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--fg) 0%,
+    color-mix(in oklab, var(--accent) 85%, var(--fg)) 45%,
+    color-mix(in oklab, var(--accent-2) 80%, var(--fg)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility accent-gradient {
+  background: linear-gradient(115deg, var(--accent), var(--accent-2));
+}
+
+/* Mirror the headline gradient so the high-contrast end leads the sentence in RTL. */
+[dir="rtl"] .text-gradient {
+  background-image: linear-gradient(
+    260deg,
+    var(--fg) 0%,
+    color-mix(in oklab, var(--accent) 85%, var(--fg)) 45%,
+    color-mix(in oklab, var(--accent-2) 80%, var(--fg)) 100%
+  );
+}
+
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility hairline-b {
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+/* -------------------------------- motion --------------------------------- */
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -5%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-4%, 4%, 0) scale(0.96);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-14deg);
+  }
+  100% {
+    transform: translateX(320%) skewX(-14deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.65;
+  }
+  70% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - var(--marquee-gap, 3rem) / 2));
+  }
+}
+
+@utility aurora {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  filter: blur(72px);
+  opacity: var(--aurora-opacity);
+  background:
+    radial-gradient(38% 38% at 22% 28%, var(--aurora-1) 0%, transparent 70%),
+    radial-gradient(42% 42% at 78% 22%, var(--aurora-2) 0%, transparent 72%),
+    radial-gradient(36% 40% at 58% 76%, var(--aurora-3) 0%, transparent 70%);
+  animation: drift 26s ease-in-out infinite;
+}
+
+@utility press {
+  transition: transform 120ms var(--ease-glass), box-shadow 220ms var(--ease-glass),
+    background-color 220ms var(--ease-glass), border-color 220ms var(--ease-glass),
+    color 220ms var(--ease-glass);
+  &:active {
+    transform: scale(0.972);
+  }
+}
+
+/* Theme change ripples out of the toggle instead of flashing the page */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+/* scrollbars that match the material */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* ---------------------------- accessibility ------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.12s !important;
+  }
+  .aurora {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-strong {
+    background: var(--panel);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --line: oklch(0.6 0.02 250);
+    --fg-muted: oklch(0.38 0.02 258);
+  }
+  .dark {
+    --line: oklch(0.55 0.03 258);
+    --fg-muted: oklch(0.85 0.02 252);
+  }
+  .glass,
+  .glass-strong {
+    background: var(--panel);
+    backdrop-filter: none;
+  }
+}
