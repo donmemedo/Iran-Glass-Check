@@ -1,0 +1,28 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  web:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules   # keep container's node_modules, don't shadow with host's
+      - /app/.next          # ditto for the Next.js build cache
+    environment:
+      - NODE_ENV=development
+      # If the browser needs the API, use localhost:8000.
+      # If Next.js *server-side* code needs it, use http://api:8000.
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - api
+
+  # optional: ensures web waits until api is actually up
+  # (requires a healthcheck on api)
